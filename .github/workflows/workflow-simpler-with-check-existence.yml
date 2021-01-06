@@ -21,4 +21,6 @@ jobs:
           files: "file.yaml"
       - name: File not exists
         if: steps.check_file.outputs.files_exists == 'false'
-        uses: andymckay/cancel-action@0.2
+          run: echo "failed" && exit -1
+        else: 
+          run: echo "exists!"
