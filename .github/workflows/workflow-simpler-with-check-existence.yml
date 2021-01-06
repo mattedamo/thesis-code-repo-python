@@ -1,0 +1,24 @@
+name: run-py-script
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  set_up:
+    name: Set up
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+    
+      - name: Check existence file input
+        id: check_file
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "file.yaml"
+      - name: File not exists
+        if: steps.check_file.outputs.files_exists == 'false'
+        uses: andymckay/cancel-action@0.2
