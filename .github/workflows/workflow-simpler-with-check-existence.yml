@@ -21,7 +21,9 @@ jobs:
           files: "file.yaml"
       - name: File not exists
         if: steps.check_file.outputs.files_exists == 'false'
-          run: echo "failed"
-       
-        else: 
-          run: echo "exists!"
+        run: |
+          echo "failed"
+          exit 1
+      - name: File exists
+        if: steps.check_file.outputs.files_exists == 'true'
+        run: echo "exists!"
