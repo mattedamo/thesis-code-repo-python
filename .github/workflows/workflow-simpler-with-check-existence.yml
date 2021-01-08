@@ -2,8 +2,7 @@ name: run-py-script
 
 on: 
   push:
-    branches:
-      - master
+    branches: [master, release/*]
 
 jobs:
   set_up:
