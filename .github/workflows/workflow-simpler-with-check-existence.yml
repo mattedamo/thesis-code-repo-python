@@ -2,8 +2,8 @@ name: run-py-script
 
 on: 
   push:
-    branches: [master, release/*]
-
+    brances: 
+      - romario
 jobs:
   set_up:
     name: Set up
