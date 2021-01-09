@@ -10,11 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: print a env var
+        run: |
+          echo "${GITHUB_REF}"
+          echo "${{github.ref}}"
       - name: Trigger infrastructure repo workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: Update-infrastructure-backend
           ref: master
-          inputs: '{"sha-tag" : "${{ github.sha }}", "code-branch"}'
+          inputs: '{"sha-tag" : "${{ github.sha }}", "code-branch" = "pippo-sowlo"}'
           repo: mattedamo/thesis-infr-repo-python
           token: ${{ secrets.API_TOKEN_GITHUB }}
