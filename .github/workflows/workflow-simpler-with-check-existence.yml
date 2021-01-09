@@ -19,6 +19,6 @@ jobs:
         with:
           workflow: Update-infrastructure-backend
           ref: master
-          inputs: '{"sha-tag" : "${{ github.sha }}", "code-branch" = "pippo-sowlo"}'
+          inputs: '{"sha-tag" : "${{ github.sha }}", "code-branch" : "${{github.ref##/}}"}'
           repo: mattedamo/thesis-infr-repo-python
           token: ${{ secrets.API_TOKEN_GITHUB }}
