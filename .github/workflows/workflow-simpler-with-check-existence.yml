@@ -14,11 +14,15 @@ jobs:
         run: |
           echo "${GITHUB_REF}"
           echo "${{github.ref}}"
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - name: Trigger infrastructure repo workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: Update-infrastructure-backend
           ref: master
-          inputs: '{"sha-tag" : "${{ github.sha }}", "code-branch" : "${{github.ref##/}}"}'
+          inputs: '{"sha-tag" : "${{ github.sha }}", "code-branch" : "${{steps.extract_branch.outputs.branch}}"}'
           repo: mattedamo/thesis-infr-repo-python
           token: ${{ secrets.API_TOKEN_GITHUB }}
