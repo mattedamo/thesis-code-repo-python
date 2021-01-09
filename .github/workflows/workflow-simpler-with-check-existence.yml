@@ -10,19 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-    
-      - name: Check existence file input
-        id: check_file
-        uses: andstor/file-existence-action@v1
+      - name: Trigger infrastructure repo workflow
+        uses: benc-uk/workflow-dispatch@v1
         with:
-          files: "file.yaml"
-      - name: File not exists
-        if: steps.check_file.outputs.files_exists == 'false'
-        run: |
-          echo "failed"
-          exit 1
-      - name: File exists
-        if: steps.check_file.outputs.files_exists == 'true'
-        run: echo "exists!"
+          workflow: Update-infrastructure-backend
+          ref: master
+          inputs: '{"sha-tag" : "${{ github.sha }}", "code-branch"}'
+          repo: mattedamo/thesis-infr-repo-python
+          token: ${{ secrets.API_TOKEN_GITHUB }}
