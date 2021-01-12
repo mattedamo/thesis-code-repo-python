@@ -10,24 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: print a env var
-        run: |
-          echo "${GITHUB_REF}"
-          echo "${{github.ref}}"
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
+        
       - name: Extract repo name
         shell: bash
-        run: echo "::set-output name=repo::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')"
+        run: echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}')
         id: exctract-repo
-      - run: echo $(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
+        
+      - run: echo $REPOSITORY_NAME
       - name: Trigger infrastructure repo workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: Update-infrastructure-backend
           ref: master
-          inputs: '{"sha-tag" : "${{ github.sha }}/imgonnalive:forever${{steps.extract_branch.outputs.branch}}", "code-branch" : "${{github.repository.name}}" }'
+          inputs: '{"sha-tag" : "${{ github.sha }}/imgonnalive:forever${{steps.extract_branch.outputs.branch}}", "code-branch" : "${{github.env.REPOSITORY_NAME}}" }'
           repo: mattedamo/thesis-infr-repo-python
           token: ${{ secrets.API_TOKEN_GITHUB }}
