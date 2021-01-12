@@ -18,11 +18,15 @@ jobs:
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
+      - name: Extract repo name
+        shell: bash
+        run: echo "##[set-output name=repo;]$(echo ${GITHUB_REPOSITORY#*/})"
+        id: exctract-repo
       - name: Trigger infrastructure repo workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: Update-infrastructure-backend
           ref: master
-          inputs: '{"sha-tag" : "${{ github.sha }}/imgonnalive:forever${{steps.extract_branch.outputs.branch}}", "code-branch" : "${{steps.extract_branch.outputs.branch}}"}'
+          inputs: '{"sha-tag" : "${{ github.sha }}/imgonnalive:forever${{steps.extract_branch.outputs.branch}}", "code-branch" : "${{steps.extract_repo.outputs.repo}}"}'
           repo: mattedamo/thesis-infr-repo-python
           token: ${{ secrets.API_TOKEN_GITHUB }}
