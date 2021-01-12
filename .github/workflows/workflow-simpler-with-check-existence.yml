@@ -22,6 +22,7 @@ jobs:
         shell: bash
         run: echo "::set-output name=repo::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')"
         id: exctract-repo
+      - run: echo $(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
       - name: Trigger infrastructure repo workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
