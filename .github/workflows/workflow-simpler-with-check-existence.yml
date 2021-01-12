@@ -27,6 +27,6 @@ jobs:
         with:
           workflow: Update-infrastructure-backend
           ref: master
-          inputs: '{"sha-tag" : "${{ github.sha }}/imgonnalive:forever${{steps.extract_branch.outputs.branch}}", "code-branch" : "padre-di-savi"}'
+          inputs: '{"sha-tag" : "${{ github.sha }}/imgonnalive:forever${{steps.extract_branch.outputs.branch}}", "code-branch" : ${{steps.extract-repo.outputs.repo}}}'
           repo: mattedamo/thesis-infr-repo-python
           token: ${{ secrets.API_TOKEN_GITHUB }}
